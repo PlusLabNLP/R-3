@@ -37,7 +37,7 @@ Clone this repo.
       bash scripts/setup/get_model_files.sh
       ```
 
-      Then install dependencies (assuming you already have Python 3.6 and Pytorch >= 1.0:
+      Then install dependencies (assuming you already have Python 3.6 ):
 
       ```
       pip install torch==1.3.1
