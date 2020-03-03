@@ -46,7 +46,7 @@ def getAntonym(word):
 		if len(antonymsset)==0:
 			for w in synonymsset:
 				if w in antonyms:
-					return antonyms[word.lower()]
+					return antonyms[w.lower()]
 			return "not "+word
 		else:
 			return antonymsset[0]
@@ -62,6 +62,8 @@ def ifTwoNegation(utterance):
 	sent = word_tokenize(utterance)
 	for i in range(len(sent)):
 		w = sent[i]
+		if w == 'no':
+			continue
 		ss = sid.polarity_scores(w)
 		if (ss['neg']==1.0 or w in missing_vadarneg_words) and (w not in exception_vadarneg_words):
 			arr.append((w,i,abs(ss['compound'])))
@@ -81,6 +83,8 @@ def isThereOnlyOneNegation(utterance):
 	word = ''
 	arr = []
 	for w in word_tokenize(utterance):
+		if w=='no':
+			continue
 		ss = sid.polarity_scores(w)
 		if ss['neg']==1.0 and w not in exception_vadarneg_words:
 			count = count+1
@@ -100,7 +104,7 @@ def isThereOnlyOneNegation(utterance):
 #TODO In future work used improved negation
 #Current style/sentiment transfer techniques are still at low accuracy
 def reverse_valence(utterance):
-	
+	#directly handle these without going for complicated logic
 	if 'should be' in utterance or 'would be' in utterance:
 		return utterance.replace(' be ',' not be ')
 	if ' need to ' in utterance:
@@ -111,10 +115,14 @@ def reverse_valence(utterance):
 		return utterance.replace('least','most')
 	if utterance.endswith('lies.'):
 		return utterance.replace('lies','truth')
+
+	#check if negation present , in terms of single or double words or not/n't words
 	word,verdict = findIfnegationPresent(utterance)
 	negword,replneg,verdict1 = findIfendingwithnt(utterance)
 	words,verdict3 = ifTwoNegation(utterance)
 	negative, verdict2 = isThereOnlyOneNegation(utterance)
+
+	#handle case by case , give priority to remove not first
 	if verdict == True:
 		return utterance.replace(word+' ','')
 	elif verdict1==True and verdict2==False:
@@ -124,6 +132,21 @@ def reverse_valence(utterance):
 			utterance = utterance.replace(w,getAntonym(w))
 		return utterance
 	else:
-		return utterance.replace(negative,getAntonym(negative)).capitalize()
+		prev_utterance = utterance
+		utterance = utterance.replace(negative,getAntonym(negative))
+		#incase algorithm could not handle still try to negate
+		#cases replace present tense verbs by appending a don't
+		#cases replace unique words prefixing with un 
+		if utterance == prev_utterance:
+			text = word_tokenize(utterance)
+			pos_text = pos_tag(text)
+			for a,b in pos_text:
+				if b == 'VBP':
+					utterance = utterance.replace(a,"don't "+a)
+					break
+				if a.startswith('un'):
+					utterance = utterance.replace(a,a[2:])
+					break
+		return utterance.capitalize()
 
 print(reverse_valence(sys.argv[1]))

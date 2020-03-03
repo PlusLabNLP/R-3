@@ -11,6 +11,7 @@ exception_vadarneg_words:
   - stuck
   - blocked
   - charges
+  - no
 
 
 missing_vadarneg_words:
