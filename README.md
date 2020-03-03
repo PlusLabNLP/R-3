@@ -1,5 +1,10 @@
 # R-3
 
+conda create --R3 python=3.6
+
+conda activate R3
+
+
 The input for our experiments are located in the folder data/non-sarcastic.txt
 
 The generation for our paper is a three staged pipeline process
@@ -32,9 +37,10 @@ Clone this repo.
       bash scripts/setup/get_model_files.sh
       ```
 
-      Then install dependencies (assuming you already have Python 3.6 and Pytorch >= 1.0:
+      Then install dependencies (assuming you already have Python 3.6 ):
 
       ```
+      pip install torch==1.3.1
       pip install tensorflow
       pip install ftfy==5.1
       conda install -c conda-forge spacy
@@ -43,13 +49,9 @@ Clone this repo.
       pip install tqdm
       pip install pandas
       pip install ipython
+      pip install pattern
+      pip install pyyaml==5.1
       
-      git clone https://github.com/clips/pattern
-      cd pattern
-      git fetch
-      git checkout development
-      pip install mysqlclient
-      python setup.py install
       ```
       <h1> Making the Data Loaders </h1>
 
