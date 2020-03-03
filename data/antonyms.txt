@@ -546,3 +546,4 @@ yang	yin
 zip	unzip
 unzip	zip
 surprised	notsurprised
+crisis	calm

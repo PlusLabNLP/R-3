@@ -196,7 +196,12 @@ def filter_beam_output(arr, inp):
         tags = nltk.pos_tag(nltk.word_tokenize(arr[i]))
         if len(set(beam_w).intersection(set(words))) > 0 or ('allerg' in arr[i] and 'allerg' in inp):
             continue
-        if len(beam_w)==1 and conjugate(verb=arr[i],tense=PARTICIPLE,number=SG) in inp:
+        if len(beam_w)==1:
+            try:
+                x = conjugate(verb=arr[i],tense=PARTICIPLE,number=SG)
+            except:
+                x = arr[i]
+        if len(beam_w)==1 and x in inp:
             continue
         for phrase in stop_phrase:
             if phrase in arr[i]:
