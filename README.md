@@ -26,7 +26,6 @@ Clone this repo.
   
   - <h1> To just reverse the valence of the input (REVERSE) </h1>
   
-    - Uncomment the print statement
     - Run python reverse.py $input
     - This will print the output in the console
 
