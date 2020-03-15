@@ -4,6 +4,9 @@ conda create --R3 python=3.6
 
 conda activate R3
 
+#point your LD_LIBRARY_PATH to your miniconda or anaconda library
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/nas/home/tuhinc/miniconda3/lib/
+
 
 The input for our experiments are located in the folder data/non-sarcastic.txt
 
