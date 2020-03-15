@@ -31,7 +31,7 @@ Clone this repo.
     - This will print the output in the console
 
   
-  - <h1> To retrieve the commonsense keyword associated with the input (RETRIEVE) </h1>
+  - <h1> To just retrieve the commonsense keyword associated with the input (RETRIEVE) </h1>
   
     - cd comet-commonsense
     
