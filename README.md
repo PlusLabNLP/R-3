@@ -24,10 +24,11 @@ Clone this repo.
   - cd R-3
   - install nltk
   
-  - <h1> To reverse the valence of the input (REVERSE) </h1>
+  - <h1> To just reverse the valence of the input (REVERSE) </h1>
+    - Uncomment the print statement
     - Run python reverse.py $input
     
-    - This will print the output in the console , you can change it to output to a file
+    - This will print the output in the console
   
   - <h1> To retrieve the commonsense keyword associated with the input (RETRIEVE) </h1>
   
