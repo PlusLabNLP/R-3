@@ -27,7 +27,6 @@ Clone this repo.
   - <h1> To just reverse the valence of the input (REVERSE) </h1>
     - Uncomment the print statement
     - Run python reverse.py $input
-    
     - This will print the output in the console
   
   - <h1> To retrieve the commonsense keyword associated with the input (RETRIEVE) </h1>
