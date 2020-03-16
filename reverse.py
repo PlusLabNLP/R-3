@@ -149,4 +149,4 @@ def reverse_valence(utterance):
 					break
 		return utterance.capitalize()
 
-print(reverse_valence(sys.argv[1]))
+# print(reverse_valence(sys.argv[1]))
