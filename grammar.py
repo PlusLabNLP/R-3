@@ -1,15 +1,12 @@
 import requests, json
 
 def correct_grammar(utterance1,utterance2,sex):
-	print(utterance2)
 	utterance1 = utterance1.split()
 	utterance2 = utterance2.split()
 	if sex=='':
 		potential_name = utterance1[0]
 		sex = getGenders(potential_name)[0][0]
-		print(sex)
 	
-
 	if utterance1[0].lower() in ['i','my']:
 		if utterance2[0].lower() in ['his','her']:
 			utterance2[0]='My'
