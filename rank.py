@@ -4,11 +4,13 @@ from sentence_retriever import getSentences
 from grammar import correct_grammar
 
 roberta = torch.hub.load('pytorch/fairseq', 'roberta.large.mnli')
+roberta.eval()
 
 def getContradictionScores(sentences,rov):
 	scores = []
+	gender = ''
 	for sent in sentences:
-		sent = correct_grammar(rov,sent)
+		sent,gender = correct_grammar(rov,sent,gender)
 		tokens = roberta.encode(rov, sent)
 		value = roberta.predict('mnli', tokens).detach().numpy()
 		value = round(value[0].tolist()[0],3)
@@ -20,6 +22,8 @@ def getContradictionScores(sentences,rov):
 def rank_sentences_based_on_contradiction(sentences,rov):
 	scores = getContradictionScores(sentences,rov)
 	scores.sort(key = lambda x: x[0],reverse=True) 
+	for s in scores:
+		print(s)
 	return scores[0] #for NSI return a random index
 
 
@@ -30,12 +34,13 @@ def rankContext(rov,commonsense,extra=''):
 	if extra!='':
 		for i in range(len(sentences)):
 			sentences[i] = sentences[i].replace(commonsense,commonsense+' '+extra)
+	print("Rov is",rov)
 	mostcontradictory = rank_sentences_based_on_contradiction(sentences,rov)
 	return mostcontradictory[1]
 
 
 
-# rankContext("Tacobell got my order wrong again.","angry")
+# rankContext("Flu is great.","accident")
 
 
 
