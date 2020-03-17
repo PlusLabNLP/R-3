@@ -22,8 +22,6 @@ def getContradictionScores(sentences,rov):
 def rank_sentences_based_on_contradiction(sentences,rov):
 	scores = getContradictionScores(sentences,rov)
 	scores.sort(key = lambda x: x[0],reverse=True) 
-	for s in scores:
-		print(s)
 	return scores[0] #for NSI return a random index
 
 
