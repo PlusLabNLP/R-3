@@ -185,7 +185,6 @@ def getSentences(keyword):
 
 
 def filter_beam_output(arr, inp):
-    print("Beam is ",arr)
     words = inp.split()
     stop_phrase = ['person to be','person to get','person will','you will','you to',
     'her to be','you have','get into','you to be','they get','have','you to get']
@@ -258,8 +257,6 @@ def filter_beam_output(arr, inp):
             arr[i] = tags[1][0]
         if len(getSentences(arr[i]))>3:
             return arr[i],additional
-        print("Arr[i] for past is",arr[i])
-        print(conjugate(verb=arr[i],tense=PAST,number=SG))
         if len(getSentences(conjugate(verb=arr[i],tense=PAST,number=SG)))>3:
             return conjugate(verb=arr[i],tense=PAST,number=SG),additional
 
