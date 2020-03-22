@@ -185,8 +185,9 @@ def getSentences(keyword):
 
 
 def filter_beam_output(arr, inp):
+    print("Beam is ",arr)
     words = inp.split()
-    stop_phrase = ['person to be','person to get','person will','you will','you to'
+    stop_phrase = ['person to be','person to get','person will','you will','you to',
     'her to be','you have','get into','you to be','they get','have','you to get']
     flag = True
     res = ''
@@ -194,7 +195,7 @@ def filter_beam_output(arr, inp):
     for i in range(0, 5):
         beam_w = arr[i].split()
         tags = nltk.pos_tag(nltk.word_tokenize(arr[i]))
-        if len(set(beam_w).intersection(set(words))) > 0 or ('allerg' in arr[i] and 'allerg' in inp):
+        if len(set(beam_w).intersection(set(words))) > 0 or ('allerg' in arr[i] and 'allerg' in inp ) or ('sink' in arr[i]):
             continue
         if len(beam_w)==1:
             try:
@@ -223,6 +224,8 @@ def filter_beam_output(arr, inp):
             arr[i] = 'fail'
         if arr[i].startswith('be '):
             arr[i] = arr[i].replace('be ','')
+        if arr[i]=='tire' or arr[i]=='hospitalize' or arr[i]=='bore': #make it modular to convert to past tense
+            arr[i] = arr[i]+'d'
         if arr[i]=='you eat it':
             arr[i]='eat'
         if arr[i]=='global thermonuclear war' or arr[i]=='masturbate' or arr[i]=='pessimistic':
@@ -255,6 +258,8 @@ def filter_beam_output(arr, inp):
             arr[i] = tags[1][0]
         if len(getSentences(arr[i]))>3:
             return arr[i],additional
+        print("Arr[i] for past is",arr[i])
+        print(conjugate(verb=arr[i],tense=PAST,number=SG))
         if len(getSentences(conjugate(verb=arr[i],tense=PAST,number=SG)))>3:
             return conjugate(verb=arr[i],tense=PAST,number=SG),additional
 
