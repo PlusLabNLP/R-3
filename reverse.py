@@ -30,6 +30,8 @@ def findIfendingwithnt(utterance):
 	for w in words:
 		if w in d:
 			return w,d[w],True
+		if w.lower() in d:
+			return w,d[w.lower()].capitalize(),True
 	return '','',False
 
 
@@ -116,6 +118,8 @@ def reverse_valence(utterance):
 	if utterance.endswith('lies.'):
 		return utterance.replace('lies','truth')
 
+	utterance = utterance.replace(" don't "," do not ")
+
 	#check if negation present , in terms of single or double words or not/n't words
 	word,verdict = findIfnegationPresent(utterance)
 	negword,replneg,verdict1 = findIfendingwithnt(utterance)
@@ -149,4 +153,4 @@ def reverse_valence(utterance):
 					break
 		return utterance.capitalize()
 
-# print(reverse_valence(sys.argv[1]))
+print(reverse_valence(sys.argv[1]))
