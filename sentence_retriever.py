@@ -1,15 +1,25 @@
 import os
 from urllib.parse import quote
 import nltk
+from loadconfig import loadConfig
+
 
 words = []
+nonoverlap_words = loadConfig('Sentences')
 
 def islenPermissible(rov,retrieved):
-	tokens = nltk.word_tokenize(rov)
-	tokens1 = nltk.word_tokenize(retrieved)
-	if len(tokens1)>2*len(tokens):
-		return False
-	return True
+    c = 0
+    for w in nonoverlap_words:
+        if w in rov:
+            c = c+1
+        if w in retrieved:
+            c = c+1
+    tokens = nltk.word_tokenize(rov)
+    tokens1 = nltk.word_tokenize(retrieved)
+    if len(tokens1)>2*len(tokens) or len(tokens1)<=3 or c>=2:
+        return False
+
+    return True
 
 def getAllConcepts():
     for line in open('./data/concept.txt'):
@@ -69,6 +79,8 @@ def getSentencesOnline(keyword):
                 sentences = elem[1].split('</div></div>')[0]
                 sentences = sentences.split('</div><div>')
                 for line in sentences:
+                    if '.&nbsp;' in line:
+                        line = line.split('.&nbsp;')[0]
                     line = line.replace('<em>','')
                     line = line.replace('</em>','')
                     if len(line.split(', '))==2:
@@ -78,6 +90,11 @@ def getSentencesOnline(keyword):
                         s.append(line)
                     elif len(line.split('. '))==2:
                         line = line.split('. ')[1]
+                        if '</div>' in line:
+                            continue
+                        s.append(line)
+                    elif len(line.split(') '))==2:
+                        line = line.split(') ')[1]
                         if '</div>' in line:
                             continue
                         s.append(line)
@@ -105,8 +122,8 @@ def getSentences(keyword,utterance):
         if len(s)>0:
             return s
     else:
-        print("Entering here")
         sentences = getSentencesOnline(keyword)
+        print(sentences)
         if len(sentences)>0:
             updateConcept(keyword)
         return filterSentences(keyword,sentences,utterance)
