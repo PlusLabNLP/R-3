@@ -185,9 +185,10 @@ def getSentences(keyword):
 
 
 def filter_beam_output(arr, inp):
+    print("Beam is ",arr)
     words = inp.split()
     stop_phrase = ['person to be','person to get','person will','you will','you to',
-    'her to be','you have','get into','you to be','they get','have','you to get']
+    'her to be','you have','get into','you to be','they get','have','you to get','waste']
     flag = True
     res = ''
     additional = ''
@@ -225,6 +226,8 @@ def filter_beam_output(arr, inp):
             arr[i] = arr[i].replace('be ','')
         if arr[i]=='tire' or arr[i]=='hospitalize' or arr[i]=='bore': #make it modular to convert to past tense
             arr[i] = arr[i]+'d'
+        if 'clothe' in arr[i]:
+            arr[i]=arr[i].replace('clothe','clothes')
         if arr[i]=='you eat it':
             arr[i]='eat'
         if arr[i]=='global thermonuclear war' or arr[i]=='masturbate' or arr[i]=='pessimistic':
