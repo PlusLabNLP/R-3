@@ -31,6 +31,14 @@ missing_vadarneg_words:
   - surprised
   - nothing
   - poorly
+  - loathe
+
+swap:
+  - fail
+  - failure
+  - television
+  - thunder
+
 
 stop_words:
   - "me,am,has,those,yourselves,isn't,each,y,before,but,who,out,shan't,isn,ve,weren,up,how,don,and,
@@ -50,10 +58,28 @@ missing:
   - very
   - sunday
 
+nonoverlap:
+  - job market
+  - state
+  - amazing
+  - fit of
+  - sitting
+  - sapped
+  - laundry
+  - exams
+  - vomiting
+  - devoured
+  - thought
+  - weather
+  - paid
+  - never got
+
 quantifier:
   - one
   - three
   - '12'
+  - 'zero'
+  - 'Zero'
 
 start:
   - not
