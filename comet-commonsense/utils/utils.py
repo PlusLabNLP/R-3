@@ -195,7 +195,7 @@ def filter_beam_output(arr, inp):
     for i in range(0, 5):
         beam_w = arr[i].split()
         tags = nltk.pos_tag(nltk.word_tokenize(arr[i]))
-        if len(set(beam_w).intersection(set(words))) > 0 or ('allerg' in arr[i] and 'allerg' in inp ):
+        if (len(set(beam_w).intersection(set(words))) > 0 and ('feel' not in beam_w)) or ('allerg' in arr[i] and 'allerg' in inp ):
             continue
         if len(beam_w)==1:
             try:
