@@ -195,7 +195,7 @@ def filter_beam_output(arr, inp):
     for i in range(0, 5):
         beam_w = arr[i].split()
         tags = nltk.pos_tag(nltk.word_tokenize(arr[i]))
-        if (len(set(beam_w).intersection(set(words))) > 0 and ('feel' not in beam_w)) or ('allerg' in arr[i] and 'allerg' in inp ):
+        if (len(set(beam_w).intersection(set(words))) > 0 and 'feel' not in beam_w) or ('allerg' in arr[i] and 'allerg' in inp ) or ('sink' in arr[i]):
             continue
         if len(beam_w)==1:
             try:
@@ -237,6 +237,8 @@ def filter_beam_output(arr, inp):
         if len(arr[i].split())>1 and arr[i].split()[1]=='from':
             arr[i] = arr[i].split()[0]
         if len(getSentences(arr[i]))>3:
+            if nltk.pos_tag(nltk.word_tokenize(additional))[0][1] in ['VB','VBG','VBD']:
+                additional = ''
             return arr[i],additional
         if len(arr[i].split())>2 and len(tags)==3 and (tags[2][1] =='NN') and (tags[1][1] !='JJ'):
             additional = arr[i].replace(tags[2][0],'')
@@ -254,13 +256,19 @@ def filter_beam_output(arr, inp):
         if arr[i]=='tire' or arr[i]=='hospitalize' or arr[i]=='bore': #make it modular to convert to past tense
             arr[i] = arr[i]+'d'
         if len(getSentences(arr[i]))>3:
+            if nltk.pos_tag(nltk.word_tokenize(additional))[0][1] in ['VB','VBG','VBD']:
+                additional = ''
             return arr[i],additional
         if len(arr[i].split())==2 and len(tags)==2 and (tags[0][1]=='JJ') and (tags[1][1]=='NN') and additional=='':
             additional = arr[i].replace(tags[1][0],'')
             arr[i] = tags[1][0]
         if len(getSentences(arr[i]))>3:
+            if nltk.pos_tag(nltk.word_tokenize(additional))[0][1] in ['VB','VBG','VBD']:
+                additional = ''
             return arr[i],additional
         if len(getSentences(conjugate(verb=arr[i],tense=PAST,number=SG)))>3:
+            if nltk.pos_tag(nltk.word_tokenize(additional))[0][1] in ['VB','VBG','VBD']:
+                additional = ''
             return conjugate(verb=arr[i],tense=PAST,number=SG),additional
 
 def is_bool(v):
