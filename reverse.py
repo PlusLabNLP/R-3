@@ -127,12 +127,15 @@ def reverse_valence(utterance):
 	negative, verdict2 = isThereOnlyOneNegation(utterance)
 
 	#handle case by case , give priority to remove not first
+	# print("here1",utterance)
 	if verdict == True:
 		return utterance.replace(word+' ','')
 	elif verdict1==True and verdict2==False:
 		return utterance.replace(negword,replneg)
 	elif verdict3==True:
 		for w in words:
+			if getAntonym(w).startswith('not'):
+				continue
 			utterance = utterance.replace(w,getAntonym(w))
 		return utterance
 	else:
@@ -151,6 +154,11 @@ def reverse_valence(utterance):
 				if a.startswith('un'):
 					utterance = utterance.replace(a,a[2:])
 					break
+		utterance = utterance.split()
+		for i in range(len(utterance)):
+			if utterance[i] == 'an' and utterance[i+1][0] not in ['a','e','i','o','u']:
+				utterance[i] = 'a'
+		utterance = ' '.join(utterance)
 		return utterance.capitalize()
 
-print(reverse_valence(sys.argv[1]))
+# print(reverse_valence(sys.argv[1]))
