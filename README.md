@@ -54,6 +54,7 @@ Clone this repo.
       pip install tqdm
       pip install pandas
       pip install ipython
+      pip install inflect
       pip install pattern
       pip install pyyaml==5.1
       
