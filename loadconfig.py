@@ -1,8 +1,9 @@
 import yaml
 
+path = './comet-commonsense/config/config.yaml'
 
 def loadConfigForROV():
-	with open('./config/config.yaml') as f:
+	with open(path) as f:
 		docs = yaml.load_all(f, Loader=yaml.FullLoader)
 		for doc in docs:
 			for k, v in doc.items():
@@ -12,9 +13,29 @@ def loadConfigForROV():
 					missing_vadarneg_words=v
 	return exception_vadarneg_words,missing_vadarneg_words
 
+def loadConfigForRank():
+	with open(path) as f:
+		docs = yaml.load_all(f, Loader=yaml.FullLoader)
+		for doc in docs:
+			for k, v in doc.items():
+				if k=="swap":
+					swap_words=v
+	return swap_words
+
+def loadConfigForSentences():
+	with open(path) as f:
+		docs = yaml.load_all(f, Loader=yaml.FullLoader)
+		for doc in docs:
+			for k, v in doc.items():
+				if k=="nonoverlap":
+					nonoverlap_words=v
+	return nonoverlap_words
+
+
+
 
 def loadConfigForRetrieval():
-	with open('./config/config.yaml') as f:
+	with open(path) as f:
 		docs = yaml.load_all(f, Loader=yaml.FullLoader)
 		for doc in docs:
 			for k, v in doc.items():
@@ -39,3 +60,7 @@ def loadConfig(step):
 		return loadConfigForROV()
 	elif step == 'Retrieve':
 		return loadConfigForRetrieval()
+	elif step == 'Sentences':
+		return loadConfigForSentences()
+	else:
+		return loadConfigForRank()
