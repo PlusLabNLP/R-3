@@ -4,6 +4,7 @@ import inflect
 
 
 def correct_grammar(utterance1,utterance2,sex):
+	utter = utterance1
 	utterance1 = utterance1.split()
 	utterance2 = utterance2.split()
 	if sex=='':
@@ -26,6 +27,9 @@ def correct_grammar(utterance1,utterance2,sex):
 			utterance2[1] = 'am'
 		if utterance2[0].lower() in ['he','she'] and utterance2[1] not in ['makes','stands']:
 			utterance2[0]='I'
+		for i in range(1,len(utterance2)):
+			if utterance2[i] in ['his','her'] and utterance2[i-1]=='for':
+				utterance2[i]='my'
 
 	elif sex == 'male' and utterance2[0].lower() in ['her','my']:
 		utterance2[0]='his'
@@ -51,14 +55,18 @@ def correct_grammar(utterance1,utterance2,sex):
 				utterance2[0]='I'
 				utterance2[1] = 'am'
 			if utterance2[0].lower() in ['he','she']:
-				if utterance2[0].lower() in ['he','she']:
-					for k in range(1,len(utterance2)):
-						if utterance2[k]=='his':
-							utterance2[k]='my'
-						if utterance2[k]=='her':
-							utterance2[k]='my'
-				utterance2.pop(0)
-				flag = True
+				if utterance2[0].lower()=='he' and utterance2[1].lower()=='has':
+					utterance2[0] = 'I'
+					utterance2[1] = 'have'
+				else:
+					if utterance2[0].lower() in ['he','she']:
+						for k in range(1,len(utterance2)):
+							if utterance2[k]=='his' and utterance2[k-1][0]!='a':
+								utterance2[k]='my'
+							if utterance2[k]=='her':
+								utterance2[k]='my'
+					utterance2.pop(0)
+					flag = True
 
 			for i in range(1,len(utterance2)):
 				if utterance2[i] in ['his','her'] and utterance2[i+1]=='to' and flag==False:
@@ -102,6 +110,8 @@ def correct_grammar(utterance1,utterance2,sex):
 	if 'I ' in utterance2 and ' she ' in utterance2:
 		utterance2 = utterance2.replace(' she ', ' I ')
 
+
+
 	if utterance1[0] not in ['I','My','i','my']:
 		utterance2= utterance2.replace('You are ','I am ')
 		utterance2= utterance2.replace('you are ','I am ')
@@ -109,10 +119,16 @@ def correct_grammar(utterance1,utterance2,sex):
 		utterance2= utterance2.replace('gave you ','gave me')
 		utterance2= utterance2.replace('told you ','told me')
 		utterance2= utterance2.replace('You ','I ')
-		utterance2= utterance2.replace(' you ',' I ')
+		if 'been' not in utterance2:
+			utterance2= utterance2.replace(' you ',' I ')
 		utterance2= utterance2.replace('we should','I will')
 		utterance2= utterance2.replace('Their ','My ')
 		utterance2= utterance2.replace('I is','I am')
+		utterance2= utterance2.replace(' is he ',' am I ')
+
+	if ' i ' in utter.lower() and ' him was ' in utterance2 or ' her was ' in utterance2:
+		utterance2 = utterance2.replace(' him was ',' you is ')
+		utterance2 = utterance2.replace(' her was ',' you is ')
 
 	utterance2 = utterance2.replace(' i ',' I ')
 	return utterance2,sex
