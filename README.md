@@ -1,6 +1,6 @@
 # R-3
 
-conda create --R3 python=3.6
+conda create --name R3 python=3.6
 
 conda activate R3
 
